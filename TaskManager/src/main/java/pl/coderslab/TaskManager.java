@@ -43,7 +43,7 @@ public class TaskManager {
                     list
                     exit
                     """);
-            sb.delete(sb.length()-5,sb.length() );
+            sb.delete(sb.length()-input.length()-1,sb.length() );
         }
 
 
@@ -59,7 +59,6 @@ public class TaskManager {
         } catch (IOException ex) {
             System.out.println("Nie można zapisać pliku.");
         }
-
 
     }
 
