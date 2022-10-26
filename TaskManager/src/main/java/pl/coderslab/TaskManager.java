@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.nio.file.StandardOpenOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TaskManager {
 
@@ -64,48 +64,78 @@ public class TaskManager {
 
         public static void menu () {
 
-        Scanner scan = new Scanner(System.in);
-        StringBuilder sb2 = new StringBuilder();
-        String input = "";
+            Scanner scan = new Scanner(System.in);
+            String input = "";
 
-        while (!input.equals("exit")) {
-            System.out.println("""
-                    wybierz właściwą opcję
-                    add
-                    remove
-                    list
-                    exit
-                    """);
-            input = scan.nextLine();
-            switch (input) {
-                case "list":
-                    List();
-                    break;
-                // other options
-                default:
-                    System.out.println("Please select a correct option.");
+            while (!input.equals("exit")) {
+                System.out.println("""
+                        wybierz właściwą opcję
+                        add
+                        remove
+                        list
+                        exit
+                        """);
+                input = scan.nextLine();
+                switch (input) {
+                    case "list":
+                        List();
+                        break;
+                    case "add":
+                        Add();
+                        break;
+                    // other options
+                    default:
+                        System.out.println("Please select a correct option.");
+                }
             }
-
-//        StringBuilder sb = new StringBuilder();
-//        String text = sb.toString();
-//        Path path1 = Paths.get(fileName);
-//        List<String> outList = new ArrayList<>();
-//
-//        outList.add(text);
-//
-//        try {
-//            Files.write(path1, outList);
-//        } catch (IOException ex) {
-//            System.out.println("Nie można zapisać pliku.");
-//        }
         }
-    }
+                public static void Add () {
+                    StringBuilder sb = new StringBuilder();
+                    Path path1 = Paths.get("tasks.csv");
+
+
+                    System.out.println("Please add task description");
+                    Scanner scanner =new Scanner(System.in);
+                    String desc = scanner.nextLine();
+
+                    System.out.println("Please add task due date - \"yyyy/MM/dd\"");
+
+                    String date = scanner.next();
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                    Date date2=null;
+                    try {
+                        date2 = dateFormat.parse(date);
+                    } catch (ParseException e) {
+
+                        System.out.println("wrong date, write again!");
+                    }
+                    String strDate= dateFormat.format(date2);
+                    System.out.println(strDate);
+
+                    System.out.println("Is your task important: true/false");
+                   String impo = scanner.next();
+                    while (!impo.equals("true")  && !impo.equals("false")){
+                        System.out.println("podaj właściwą odpowiedź");
+                        impo = scanner.next();
+                    }
+sb.append(desc).append(", ").append(strDate).append(", ").append(impo).append("\n");
+                    System.out.println(desc + " | " + strDate + " | " + impo);
+                    System.out.println(sb);
+                    try {
+                        Files.writeString(path1, sb,StandardOpenOption.APPEND);
+                    } catch (IOException ex) {
+                        System.out.println("Nie można zapisać pliku.");
+                    }
+                }
+
+
 
 
     public static void main(String[] args) {
- List();
+ //List();
       //  System.out.println(Arrays.deepToString(finalarray()));
-  //      menu();
-
+        menu();
+//Add();
     }
 }
