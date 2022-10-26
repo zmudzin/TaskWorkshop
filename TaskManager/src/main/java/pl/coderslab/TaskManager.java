@@ -18,7 +18,7 @@ public class TaskManager {
         for(int i = 0; i < finalarray().length; i++){
             System.out.print(i+1+" : ");
             for(int j = 0; j < finalarray()[i].length; j++){
-                System.out.print(finalarray()[i][j] + " ");
+                System.out.print(finalarray()[i][j] + " | ");
             }
 
             System.out.println();
@@ -103,9 +103,9 @@ public class TaskManager {
 
 
     public static void main(String[] args) {
-// List();
+ List();
       //  System.out.println(Arrays.deepToString(finalarray()));
-        menu();
+  //      menu();
 
     }
 }
