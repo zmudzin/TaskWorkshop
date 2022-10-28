@@ -1,5 +1,7 @@
 package pl.coderslab;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,11 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TaskManager {
+
 
 
     public static void List() {
@@ -83,6 +87,9 @@ public class TaskManager {
                     case "add":
                         Add();
                         break;
+                    case "remove":
+                        remove();
+                        break;
                     // other options
                     default:
                         System.out.println("Please select a correct option.");
@@ -131,11 +138,33 @@ sb.append(desc).append(", ").append(strDate).append(", ").append(impo).append("\
 
 
 
+        public static void remove () {
+        List();
+            System.out.println("choose a number from list to delete task"); // tworzymy tablicę
+            Scanner scanner =new Scanner(System.in);
+            int index = scanner.nextInt();
+            StringBuilder sb = new StringBuilder();
+            Path path1 = Paths.get("tasks.csv");
+          String[][] finalar = ArrayUtils.remove(finalarray(), index-1);
+            // System.out.println(Arrays.deepToString(finalar));
+            String finale = finalar.toString();
+
+            System.out.println(sb);
+//            sb.append(Arrays.deepToString(finalar).replaceAll("],", "\n").replaceAll("" ,""));
+//            try {
+//                Files.writeString(path1, sb);
+//            } catch (IOException ex) {
+//                System.out.println("Nie można zapisać pliku.");
+//            }
+        }
+
+
 
     public static void main(String[] args) {
- //List();
+ List();
       //  System.out.println(Arrays.deepToString(finalarray()));
-        menu();
+//        menu();
 //Add();
+  //      remove();
     }
 }
