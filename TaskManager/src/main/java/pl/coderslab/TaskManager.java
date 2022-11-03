@@ -57,6 +57,7 @@ public class TaskManager {
                        Remove();
                        break;
                    case "exit":
+                       System.out.println(ConsoleColors.RED+"bye,bye");
                        break;
                    default:
                        System.out.println(ConsoleColors.RED + "Please select a correct option." + ConsoleColors.RESET);
