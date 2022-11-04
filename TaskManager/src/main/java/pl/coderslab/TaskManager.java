@@ -15,8 +15,8 @@ import java.util.*;
 
 public class TaskManager {
 
-    public static String [][] TasksArray() {
-        File file = new File("tasks.csv");
+    public static String [][] tasksArray() {
+        File file = new File("/home/istredd/WorkshopTask/TaskManager/tasks.csv");
         String[][] tasksArray = new String[0][0];
 
         try {
@@ -33,10 +33,11 @@ public class TaskManager {
         }
         return tasksArray;
     }
-        public static void Menu () {
+
+        public static void menu () {
 
             Scanner scan = new Scanner(System.in);
-            String input = "";
+            String input;
             System.out.println(ConsoleColors.BLUE + "Please select an option:\n" + ConsoleColors.RESET +
                                "add\n" +
                                "remove\n" +
@@ -45,38 +46,32 @@ public class TaskManager {
 
             input = scan.nextLine();
             switch (input) {
-
-                   case "list":
-                       List();
-                       Menu();
-                       break;
-                   case "add":
-                       Add();
-                       break;
-                   case "remove":
-                       Remove();
-                       break;
-                   case "exit":
-                       System.out.println(ConsoleColors.RED+"bye,bye");
-                       break;
-                   default:
-                       System.out.println(ConsoleColors.RED + "Please select a correct option." + ConsoleColors.RESET);
-Menu();
-               }
+                case "list" -> {
+                    list();
+                    menu();
+                }
+                case "add" -> add();
+                case "remove" -> remove();
+                case "exit" -> System.out.println(ConsoleColors.RED + "bye,bye");
+                default -> {
+                    System.out.println(ConsoleColors.RED + "Please select a correct option." + ConsoleColors.RESET);
+                    menu();
+                }
+            }
         }
-    public static void List() {
-        for(int i = 0; i < TasksArray().length; i++){
+    public static void list() {
+        for(int i = 0; i < tasksArray().length; i++){
             System.out.print(i+1+" : ");
-            for(int j = 0; j < TasksArray()[i].length; j++){
-                System.out.print(TasksArray()[i][j] + " | ");
+            for(int j = 0; j < tasksArray()[i].length; j++){
+                System.out.print(tasksArray()[i][j] + " | ");
             }
             System.out.println();
 
         }
     }
-                public static void Add () {
+                public static void add () {
                     StringBuilder sb = new StringBuilder();
-                    Path path1 = Paths.get("tasks.csv");
+                    Path path1 = Paths.get("/home/istredd/WorkshopTask/TaskManager/tasks.csv");
                     System.out.println("Please add task description");
                     Scanner scanner =new Scanner(System.in);
                     String desc = scanner.nextLine();
@@ -94,7 +89,6 @@ Menu();
                         System.out.println("It is not valid month:");
                         date2 = scanner.nextLine();
                     }
-
                     System.out.println("Write day - \"dd\"");
                     String date3 = scanner.nextLine();
                     while (!NumberUtils.isParsable(date3)) {
@@ -104,67 +98,61 @@ Menu();
                     String date4= date+"-"+date2+"-"+date3;
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date date5=null;
-
                         try {
                             date5 = dateFormat.parse(date4);
                         } catch (ParseException e) {
                             System.out.println("wrong date, write again!");
                         }
-
                     String strDate= dateFormat.format(date5);
                     System.out.println(strDate);
-
                     System.out.println("Is your task important: true/false");
-                   String impo = scanner.next();
-                    while (!impo.equals("true")  && !impo.equals("false")){
+                   String important = scanner.next();
+                    while (!important.equals("true")  && !important.equals("false")){
                         System.out.println("wrong answer");
-                        impo = scanner.next();
+                        important = scanner.next();
                     }
-sb.append(desc).append(", ").append(strDate).append(", ").append(impo).append("\n");
-                    System.out.println(ConsoleColors.RED+"New task added to list:"+"\n"+ConsoleColors.YELLOW+desc + " | " + strDate + " | " + impo+"\n"+ConsoleColors.RESET);
+                    sb.append(desc).append(", ").append(strDate).append(", ").append(important).append("\n");
+                    System.out.println(ConsoleColors.RED+"New task added to list:"+"\n"+ConsoleColors.YELLOW+desc + " | " + strDate + " | " + important+"\n"+ConsoleColors.RESET);
                     try {
                         Files.writeString(path1, sb,StandardOpenOption.APPEND);
                     } catch (IOException ex) {
-                        System.out.println("Nie można zapisać pliku.");
+                        System.out.println("Cant write to file");
                     }
-                    List();
-                    Menu();
+                    list();
+                    menu();
                 }
-
-        public static void Remove () {
-           List();
-            System.out.println(ConsoleColors.YELLOW+"choose a number from list to delete task"); // tworzymy tablicę
+        public static void remove () {
+           list();
+            System.out.println(ConsoleColors.YELLOW+"choose a number from list to delete task");
             Scanner scanner = new Scanner(System.in);
             StringBuilder sb = new StringBuilder();
             int index = scanner.nextInt();
-            while (index > TasksArray().length){
+            while (index > tasksArray().length){
                 System.out.println("choose a valid number from list to delete task");
                 index = scanner.nextInt();
             }
+            Path path1 = Paths.get("/home/istredd/WorkshopTask/TaskManager/tasks.csv");
+            String[][] finalArr = ArrayUtils.remove(tasksArray(), index - 1);
 
-            Path path1 = Paths.get("tasks.csv");
-            String[][] finalar = ArrayUtils.remove(TasksArray(), index - 1);
-
-
-            for (int i = 0; i < finalar.length; i++) {
-                for (int j = 0; j < finalar[i].length; j++) {
-                    sb.append(finalar[i][j] + ",");
+            for (String[] strings : finalArr) {
+                for (int j = 0; j < strings.length; j++) {
+                    sb.append(strings[j]).append(",");
                     if (j >= 2) {
                         sb.delete(sb.length() - 1, sb.length()).append("\n");
                     }
                     try {
                         Files.writeString(path1, sb);
                     } catch (IOException ex) {
-                        System.out.println("Nie można zapisać pliku.");
+                        System.out.println("Cant write to file");
                     }
                 }
             }
             System.out.println(ConsoleColors.RED+"removed task from index: "+index+"\n"+ConsoleColors.RESET+"Active Tasks:");
-            List();
-            Menu();
+            list();
+            menu();
     }
 
     public static void main(String[] args) {
-        Menu();
+        menu();
     }
 }
