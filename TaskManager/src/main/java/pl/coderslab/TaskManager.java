@@ -51,8 +51,16 @@ public class TaskManager {
                 list();
                 menu();
             }
-            case "add" -> add();
-            case "remove" -> remove();
+            case "add" -> {
+                add();
+                list();
+                menu();
+            }
+            case "remove" -> {
+                remove();
+                list();
+                menu();
+            }
             case "exit" -> System.out.println(ConsoleColors.RED + "bye,bye");
             default -> {
                 System.out.println(ConsoleColors.RED + "Please select a correct option." + ConsoleColors.RESET);
@@ -68,7 +76,6 @@ public class TaskManager {
                 System.out.print(tasksArray()[i][j] + " | ");
             }
             System.out.println();
-
         }
     }
 
@@ -126,8 +133,6 @@ public class TaskManager {
         } catch (IOException ex) {
             System.out.println("Cant write to file");
         }
-        list();
-        menu();
     }
     public static void remove() {
         list();
@@ -156,8 +161,6 @@ public class TaskManager {
             }
         }
         System.out.println(ConsoleColors.RED + "removed task from index: " + index + "\n" + ConsoleColors.RESET + "Active Tasks:");
-        list();
-        menu();
     }
     public static void main(String[] args) {
         menu();
