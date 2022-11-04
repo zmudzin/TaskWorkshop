@@ -15,6 +15,33 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TaskManager {
+    public static void main(String[] args) {
+        menu();
+        System.out.println("\n"+ConsoleColors.RED + "bye,bye");
+    }
+
+    public static void menu() {
+
+        Scanner scan = new Scanner(System.in);
+        System.out.println(ConsoleColors.BLUE + "Please select an option:\n" + ConsoleColors.RESET +
+                "add\n" +
+                "remove\n" +
+                "list\n" +
+                ConsoleColors.RED + "exit\n" + ConsoleColors.RESET);
+
+      String input = scan.next();
+
+        if (!input.equals("exit")) {
+        switch (input) {
+            case "list" -> {}
+            case "add" -> add();
+            case "remove" -> remove();
+            default -> System.out.println(ConsoleColors.RED + "Please select a correct option." + ConsoleColors.RESET);
+        }
+        list();
+        menu();
+        }
+    }
 
     public static String[][] tasksArray() {
         File file = new File("/home/istredd/WorkshopTask/TaskManager/tasks.csv");
@@ -33,40 +60,6 @@ public class TaskManager {
             System.out.println("no file exception");
         }
         return tasksArray;
-    }
-
-    public static void menu() {
-
-        Scanner scan = new Scanner(System.in);
-        String input;
-        System.out.println(ConsoleColors.BLUE + "Please select an option:\n" + ConsoleColors.RESET +
-                "add\n" +
-                "remove\n" +
-                "list\n" +
-                ConsoleColors.RED + "exit\n" + ConsoleColors.RESET);
-
-        input = scan.nextLine();
-        switch (input) {
-            case "list" -> {
-                list();
-                menu();
-            }
-            case "add" -> {
-                add();
-                list();
-                menu();
-            }
-            case "remove" -> {
-                remove();
-                list();
-                menu();
-            }
-            case "exit" -> System.out.println(ConsoleColors.RED + "bye,bye");
-            default -> {
-                System.out.println(ConsoleColors.RED + "Please select a correct option." + ConsoleColors.RESET);
-                menu();
-            }
-        }
     }
 
     public static void list() {
@@ -162,10 +155,6 @@ public class TaskManager {
         }
         System.out.println(ConsoleColors.RED + "removed task from index: " + index + "\n" + ConsoleColors.RESET + "Active Tasks:");
     }
-    public static void main(String[] args) {
-        menu();
-    }
-
 }
 
 
