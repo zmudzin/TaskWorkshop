@@ -2,10 +2,7 @@ package pl.coderslab;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,34 +12,38 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TaskManager {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         menu();
         System.out.println("\n"+ConsoleColors.RED + "bye,bye");
     }
 
-    public static void menu() {
+    public static void exit() {
+        System.out.println("\n" + ConsoleColors.RED + "bye,bye");
+    }
 
-        Scanner scan = new Scanner(System.in);
+    public static void menu() throws IOException {
+
         System.out.println(ConsoleColors.BLUE + "Please select an option:\n" + ConsoleColors.RESET +
                 "add\n" +
                 "remove\n" +
                 "list\n" +
                 ConsoleColors.RED + "exit\n" + ConsoleColors.RESET);
 
-      String input = scan.next();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String input = br.readLine();
 
         if (!input.equals("exit")) {
-        switch (input) {
-            case "list" -> {}
-            case "add" -> add();
-            case "remove" -> remove();
-            default -> System.out.println(ConsoleColors.RED + "Please select a correct option." + ConsoleColors.RESET);
-        }
-        list();
-        menu();
+            switch (input) {
+                case "list" -> {}
+                case "add" -> add();
+                case "remove" -> remove();
+                default -> System.out.println(ConsoleColors.RED + "Please select a correct option." + ConsoleColors.RESET);
+            }
+            list();
+            menu();
         }
     }
-
     public static String[][] tasksArray() {
         File file = new File("/home/istredd/WorkshopTask/TaskManager/tasks.csv");
         String[][] tasksArray = new String[0][0];
@@ -133,7 +134,7 @@ public class TaskManager {
         Scanner scanner = new Scanner(System.in);
         StringBuilder sb = new StringBuilder();
         int index = scanner.nextInt();
-        while (index > tasksArray().length) {
+        while (index > tasksArray().length || index <=0 ) {
             System.out.println("choose a valid number from list to delete task");
             index = scanner.nextInt();
         }
