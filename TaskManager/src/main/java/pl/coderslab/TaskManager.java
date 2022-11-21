@@ -17,8 +17,9 @@ public class TaskManager {
         System.out.println("\n"+ConsoleColors.RED + "bye,bye");
     }
 
-    public static void exit() {
+    public static void exit() {;
         System.out.println("\n" + ConsoleColors.RED + "bye,bye");
+        System.exit(1);
     }
 
     public static void menu() throws IOException {
@@ -33,11 +34,12 @@ public class TaskManager {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String input = br.readLine();
 
-        if (!input.equals("exit")) {
+        while (true) {
             switch (input) {
                 case "list" -> {}
                 case "add" -> add();
                 case "remove" -> remove();
+                case "exit" -> exit();
                 default -> System.out.println(ConsoleColors.RED + "Please select a correct option." + ConsoleColors.RESET);
             }
             list();
